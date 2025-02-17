@@ -1,0 +1,12 @@
+const Header = () => {
+  return (
+    <header className="fixed w-full top-0 right-0 left-0 flex max-w-[1220px] py-3 mx-auto h-[10vh] items-center justify-between">
+      <h2 className="font-logo text-6xl font-semibold ">Nexa</h2>
+      <button className="text-4xl hover:text-[#737475] transition duration-300 hover:ease-in-out">
+        <ion-icon name="logo-github"></ion-icon>
+      </button>
+    </header>
+  );
+};
+
+export default Header;
