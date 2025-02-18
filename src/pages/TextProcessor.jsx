@@ -4,7 +4,12 @@ import { useEffect, useState } from "react";
 import Welcome from "../components/Welcome";
 
 const TextProcessor = () => {
-  const [chatHistory, setChatHistory] = useState([]);
+  // const [chatHistory, setChatHistory] = useState([]);
+  const [chatHistory, setChatHistory] = useState(() => {
+    // Load chat history from local storage on initial load
+    const storedHistory = localStorage.getItem("chatHistory");
+    return storedHistory ? JSON.parse(storedHistory) : [];
+  });
   const [inputText, setInputText] = useState("");
   // const [outputText, setOutputText] = useState("");
   const [detectedLanguage, setDetectedLanguage] = useState("");
@@ -24,6 +29,10 @@ const TextProcessor = () => {
       console.log("Summarization API is not supported");
     }
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem("chatHistory", JSON.stringify(chatHistory));
+  }, [chatHistory]);
 
   const detectLanguage = async (text) => {
     try {
@@ -123,7 +132,28 @@ const TextProcessor = () => {
     };
 
     setChatHistory((prev) => [...prev, userMessage]);
+    console.log(chatHistory);
     setInputText("");
+  };
+
+  const handleClearAll = () => {
+    toast.info(
+      <div>
+        <p>Are you sure you want to clear chats?</p>
+        <button
+          onClick={clearChatHistory}
+          className="bg-red-500 hover:bg-red-700 text-white px-3 py-1 rounded-md mt-2"
+        >
+          Confirm
+        </button>
+      </div>,
+      { autoClose: false, theme: "dark", role: "status" }
+    );
+  };
+
+  const clearChatHistory = () => {
+    setChatHistory([]);
+    localStorage.removeItem("chatHistory");
   };
 
   return (
@@ -131,9 +161,17 @@ const TextProcessor = () => {
       <ToastContainer />
       <div className="px-6 md:px-10 w-full min-h-screen font-primary flex flex-col justify-center items-center">
         <Header />
-        <section className="max-w-[700px] min-h-[600px] md:h-[800px] w-full animate-fadeIn flex flex-col justify-between shadow-md bg-white rounded-lg text-black mt-5 px-6 py-8">
+        <section className="relative max-w-[700px] min-h-[600px] md:h-[800px] w-full animate-fadeIn flex flex-col justify-between shadow-md bg-white rounded-lg text-black mt-5 px-6 py-8">
+          {chatHistory.length > 0 && (
+            <button
+              onClick={handleClearAll}
+              className="hover:bg-opacity-80 absolute top-2 left-2 text-white bg-red-600 rounded-lg px-2 py-1 transition duration-300 hover:ease-in-out"
+            >
+              Clear Chat
+            </button>
+          )}
           {chatHistory.length > 0 ? (
-            <section className="overflow-y-auto  rounded-md overflow-x-hidden">
+            <section className="overflow-y-auto mt-8 rounded-md overflow-x-hidden">
               {chatHistory.map((msg, index) => (
                 <div
                   key={index}
@@ -151,7 +189,7 @@ const TextProcessor = () => {
                     {msg.text}
                   </div>
                   {msg.language && msg.sender === "user" && (
-                    <p className="text-neutral-500 mr-2">
+                    <p className="text-neutral-500 mr-2 mb-1.5">
                       Detected Language: <span>{msg.language}</span>
                     </p>
                   )}
@@ -199,7 +237,7 @@ const TextProcessor = () => {
           )}
 
           <section>
-            <div className="has-[:focus]:border-neutral-500 mt-3 w-full border border-neutral-300 flex items-end rounded-lg p-2 gap-2">
+            <div className="has-[:focus]:border-neutral-500 mt-3 w-full border-2 border-neutral-300 flex items-end rounded-lg p-2 gap-2">
               <textarea
                 rows={3}
                 placeholder="Enter you text here:"

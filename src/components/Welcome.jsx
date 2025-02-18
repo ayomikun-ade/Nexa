@@ -1,6 +1,6 @@
 const Welcome = () => {
   return (
-    <div className="text-black text-center flex flex-col justify-center items-center w-full h-full">
+    <div className="text-black text-center animate-textIn flex flex-col justify-center items-center w-full h-full">
       <h2 className="font-head text-5xl font-semibold ">Welcome to Nexa</h2>
       <p className="text-neutral-800 text-lg mb-2">
         You personal bridge between Languages
