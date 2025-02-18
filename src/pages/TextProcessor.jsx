@@ -1,6 +1,7 @@
 import { toast, ToastContainer } from "react-toastify";
 import Header from "../components/Header";
 import { useEffect, useState } from "react";
+import Welcome from "../components/Welcome";
 
 const TextProcessor = () => {
   const [chatHistory, setChatHistory] = useState([]);
@@ -130,66 +131,71 @@ const TextProcessor = () => {
       <div className="px-6 md:px-10 w-full min-h-screen font-primary flex flex-col justify-center items-center">
         <Header />
         <section className="max-w-[700px] min-h-[600px] md:h-[800px] w-full animate-fadeIn flex flex-col justify-between shadow-md bg-white rounded-lg text-black mt-5 px-6 py-8">
-          <section className="overflow-y-scroll">
-            {chatHistory.map((msg, index) => (
-              <div
-                key={index}
-                className={`flex flex-col mb-3 ${
-                  msg.sender === "user" ? "items-end" : "items-start"
-                }`}
-              >
+          {chatHistory.length > 0 ? (
+            <section className="overflow-y-scroll">
+              {chatHistory.map((msg, index) => (
                 <div
-                  className={`px-3 py-2 w-[90%] md:w-[70%] rounded-lg mb-2 ${
-                    msg.sender === "user"
-                      ? "bg-black text-white"
-                      : "bg-neutral-200 text-black"
+                  key={index}
+                  className={`flex flex-col mb-3 ${
+                    msg.sender === "user" ? "items-end" : "items-start"
                   }`}
                 >
-                  {msg.text}
-                </div>
-                {msg.language && msg.sender === "user" && (
-                  <p className="text-neutral-500 mr-2">
-                    Detected Language: <span>{msg.language}</span>
-                  </p>
-                )}
-                <div className="flex flex-col md:flex-row gap-2 mb-3">
-                  {msg.text.length > 150 &&
-                    msg.sender === "user" &&
-                    detectedLanguage == "en" && (
-                      <button
-                        onClick={() => handleSummarize(index)}
-                        disabled={isProcessing}
-                        className="px-2 py-1 w-fit rounded-md bg-black text-white border border-black hover:bg-black/80 transition duration-300 hover:ease-in-out"
-                      >
-                        {isProcessing ? "Processing..." : "Summarize"}
-                      </button>
-                    )}
-                  {msg.sender === "user" && (
-                    <div className="w-full">
-                      <button
-                        onClick={() => handleTranslate(index)}
-                        disabled={isTranslating}
-                        className="px-2 py-1 rounded-md border border-neutral-800 mr-2 hover:bg-neutral-300 transition duration-300 hover:ease-in-out"
-                      >
-                        {isTranslating ? "Translating..." : "Translate"}
-                      </button>
-                      <select
-                        onChange={handleLanguageChange}
-                        className="outline-none bg-transparent"
-                      >
-                        <option value="en">English</option>
-                        <option value="pt">Portuguese</option>
-                        <option value="es">Spanish</option>
-                        <option value="ru">Russian</option>
-                        <option value="tr">Turkish</option>
-                        <option value="fr">French</option>
-                      </select>
-                    </div>
+                  <div
+                    className={`px-3 py-2 w-[90%] md:w-[70%] rounded-lg mb-2 ${
+                      msg.sender === "user"
+                        ? "bg-black text-white"
+                        : "bg-neutral-200 text-black"
+                    }`}
+                  >
+                    {msg.text}
+                  </div>
+                  {msg.language && msg.sender === "user" && (
+                    <p className="text-neutral-500 mr-2">
+                      Detected Language: <span>{msg.language}</span>
+                    </p>
                   )}
+                  <div className="flex flex-col md:flex-row gap-2 mb-3">
+                    {msg.text.length > 150 &&
+                      msg.sender === "user" &&
+                      detectedLanguage == "en" && (
+                        <button
+                          onClick={() => handleSummarize(index)}
+                          disabled={isProcessing}
+                          className="px-2 py-1 w-fit rounded-md bg-black text-white border border-black hover:bg-black/80 transition duration-300 hover:ease-in-out"
+                        >
+                          {isProcessing ? "Processing..." : "Summarize"}
+                        </button>
+                      )}
+                    {msg.sender === "user" && (
+                      <div className="w-full">
+                        <button
+                          onClick={() => handleTranslate(index)}
+                          disabled={isTranslating}
+                          className="px-2 py-1 rounded-md border border-neutral-800 mr-2 hover:bg-neutral-300 transition duration-300 hover:ease-in-out"
+                        >
+                          {isTranslating ? "Translating..." : "Translate"}
+                        </button>
+                        <select
+                          onChange={handleLanguageChange}
+                          className="outline-none bg-transparent"
+                        >
+                          <option disabled>Select Language</option>
+                          <option value="en">English</option>
+                          <option value="pt">Portuguese</option>
+                          <option value="es">Spanish</option>
+                          <option value="ru">Russian</option>
+                          <option value="tr">Turkish</option>
+                          <option value="fr">French</option>
+                        </select>
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
-          </section>
+              ))}
+            </section>
+          ) : (
+            <Welcome />
+          )}
 
           <section>
             <div className="has-[:focus]:border-neutral-500 w-full border border-neutral-300 flex items-end rounded-lg p-2 gap-2">
