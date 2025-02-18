@@ -6,7 +6,7 @@ const LandingPage = () => {
     <div className="px-10 w-full min-h-screen flex flex-col justify-center items-center">
       <Header />
       <main className="flex flex-col animate-fadeIn justify-center items-center max-w-[700px] text-center">
-        <h1 className="font-head font-semibold text-4xl">
+        <h1 className="font-head font-semibold text-5xl">
           Nexa: Where Language Meets AI
         </h1>
         <p className="font-primary mt-3 text-lg ">

@@ -56,7 +56,7 @@ const TextProcessor = () => {
       console.log(detectedLanguage, targetLanguage);
       // setTranslation(translatedResult);
       console.log(translatedResult);
-      return `Translation:\n ${translatedResult}`;
+      return `Translation: ${translatedResult}`;
     } catch (error) {
       console.error("Translation error:", error);
       if (
@@ -75,7 +75,8 @@ const TextProcessor = () => {
     setIsProcessing(true);
     try {
       const summarizer = await self.ai.summarizer.create();
-      return await summarizer.summarize(text);
+      const output = await summarizer.summarize(text);
+      return `Summary: ${output}`;
     } catch (error) {
       console.error("Summarization error:", error);
       toast.error("Summarization failed!");
@@ -132,7 +133,7 @@ const TextProcessor = () => {
         <Header />
         <section className="max-w-[700px] min-h-[600px] md:h-[800px] w-full animate-fadeIn flex flex-col justify-between shadow-md bg-white rounded-lg text-black mt-5 px-6 py-8">
           {chatHistory.length > 0 ? (
-            <section className="overflow-y-scroll">
+            <section className="overflow-y-auto  rounded-md overflow-x-hidden">
               {chatHistory.map((msg, index) => (
                 <div
                   key={index}
@@ -141,7 +142,7 @@ const TextProcessor = () => {
                   }`}
                 >
                   <div
-                    className={`px-3 py-2 w-[90%] md:w-[70%] rounded-lg mb-2 ${
+                    className={`px-3 py-2 w-[90%] md:w-[70%] animate-textIn rounded-lg mb-2 ${
                       msg.sender === "user"
                         ? "bg-black text-white"
                         : "bg-neutral-200 text-black"
@@ -160,8 +161,8 @@ const TextProcessor = () => {
                       detectedLanguage == "en" && (
                         <button
                           onClick={() => handleSummarize(index)}
-                          disabled={isProcessing}
-                          className="px-2 py-1 w-fit rounded-md bg-black text-white border border-black hover:bg-black/80 transition duration-300 hover:ease-in-out"
+                          disabled={isProcessing || isTranslating}
+                          className="px-2 py-1 w-fit rounded-md bg-black disabled:cursor-not-allowed disabled:opacity-70 text-white border border-black hover:bg-black/80 transition duration-300 hover:ease-in-out"
                         >
                           {isProcessing ? "Processing..." : "Summarize"}
                         </button>
@@ -170,8 +171,8 @@ const TextProcessor = () => {
                       <div className="w-full">
                         <button
                           onClick={() => handleTranslate(index)}
-                          disabled={isTranslating}
-                          className="px-2 py-1 rounded-md border border-neutral-800 mr-2 hover:bg-neutral-300 transition duration-300 hover:ease-in-out"
+                          disabled={isProcessing || isTranslating}
+                          className="px-2 py-1 rounded-md border border-neutral-800 mr-2 disabled:cursor-not-allowed disabled:opacity-70 hover:bg-neutral-300 transition duration-300 hover:ease-in-out"
                         >
                           {isTranslating ? "Translating..." : "Translate"}
                         </button>
@@ -198,7 +199,7 @@ const TextProcessor = () => {
           )}
 
           <section>
-            <div className="has-[:focus]:border-neutral-500 w-full border border-neutral-300 flex items-end rounded-lg p-2 gap-2">
+            <div className="has-[:focus]:border-neutral-500 mt-3 w-full border border-neutral-300 flex items-end rounded-lg p-2 gap-2">
               <textarea
                 rows={3}
                 placeholder="Enter you text here:"
@@ -208,7 +209,8 @@ const TextProcessor = () => {
               ></textarea>
               <button
                 onClick={handleSendMessage}
-                className="text-2xl hover:text-[#737475] transition duration-300 hover:ease-in-out"
+                disabled={isProcessing || isTranslating}
+                className="text-2xl hover:text-[#737475] disabled:cursor-not-allowed disabled:opacity-70 transition duration-300 hover:ease-in-out"
               >
                 <ion-icon className="p-0" name="send-outline"></ion-icon>
               </button>

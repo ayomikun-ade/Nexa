@@ -14,14 +14,14 @@ export default {
           "0%": { opacity: "0", transform: "translateY(25px)" },
           "100%": { opacity: "1", transform: "translateY(0)" },
         },
-        headerIn: {
-          "0%": { opacity: "0", transform: "translateY(-30px)" },
-          "100%": { opacity: "1", transform: "translateY(0)" },
+        textIn: {
+          "0%": { opacity: "0", transform: "translateX(20px)" },
+          "100%": { opacity: "1", transform: "translateX(0)" },
         },
       },
       animation: {
         fadeIn: "fadeIn 0.5s ease-out",
-        headerIn: "headerIn 1s",
+        textIn: "textIn 1s",
       },
     },
   },

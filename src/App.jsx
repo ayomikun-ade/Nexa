@@ -5,7 +5,7 @@ import TextProcessor from "./pages/TextProcessor";
 const App = () => {
   return (
     <div
-      className="bg-gradient-to-t from-[#1e2022] to-[#000000]
+      className="bg-gradient-to-t from-[#2c2c2c] to-[#000000]
  text-white"
     >
       <BrowserRouter>
