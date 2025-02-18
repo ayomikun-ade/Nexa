@@ -54,7 +54,7 @@ const TextProcessor = () => {
       <ToastContainer />
       <div className="px-6 md:px-10 w-full min-h-screen font-primary flex flex-col justify-center items-center">
         <Header />
-        <section className="max-w-[700px] h-[800px] w-full flex flex-col justify-between shadow-md bg-white rounded-lg text-black px-6 py-8">
+        <section className="max-w-[700px] h-[800px] w-full flex flex-col justify-between shadow-md bg-white rounded-lg text-black mt-5 px-6 py-8">
           <section className="overflow-y-scroll">
             {chatHistory.map((msg, index) => (
               <div

@@ -6,6 +6,7 @@ export default {
       main: ['"Aqua Grotesque"'],
       logo: ["Cookie"],
       primary: ["Poppins"],
+      head: ["Charm"],
     },
     extend: {
       keyframes: {
