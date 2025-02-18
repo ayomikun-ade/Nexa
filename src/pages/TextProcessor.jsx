@@ -10,17 +10,17 @@ const TextProcessor = () => {
   const [selectedLanguage, setSelectedLanguage] = useState("");
   // const [translation, setTranslation] = useState("");
   const [isTranslating, setIsTranslating] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   useEffect(() => {
-    if ("ai" in self && "languageDetector" in self.ai) {
-      console.log("Language Detection API is supported");
-    } else {
+    if (!("ai" in self && "languageDetector" in self.ai)) {
       console.log("Language Detection API is not supported");
     }
-
     if (!("ai" in self && "translator" in self.ai)) {
       console.log("Translator API is not supported");
-      return;
+    }
+    if (!("ai" in self && "summarizer" in self.ai)) {
+      console.log("Summarization API is not supported");
     }
   }, []);
 
@@ -55,7 +55,7 @@ const TextProcessor = () => {
       console.log(detectedLanguage, targetLanguage);
       // setTranslation(translatedResult);
       console.log(translatedResult);
-      return translatedResult;
+      return `Translation:\n ${translatedResult}`;
     } catch (error) {
       console.error("Translation error:", error);
       if (
@@ -67,6 +67,20 @@ const TextProcessor = () => {
       //   alert("Error translating text: " + error.message);
     } finally {
       setIsTranslating(false);
+    }
+  };
+
+  const summarizeText = async (text) => {
+    setIsProcessing(true);
+    try {
+      const summarizer = await self.ai.summarizer.create();
+      return await summarizer.summarize(text);
+    } catch (error) {
+      console.error("Summarization error:", error);
+      toast.error("Summarization failed!");
+      return "";
+    } finally {
+      setIsProcessing(false);
     }
   };
 
@@ -85,13 +99,19 @@ const TextProcessor = () => {
     }
   };
 
+  const handleSummarize = async (index) => {
+    const message = chatHistory[index];
+    const summarizedText = await summarizeText(message.text);
+    if (summarizedText) {
+      setChatHistory((prev) => [
+        ...prev,
+        { text: summarizedText, sender: "bot", type: "summary" },
+      ]);
+    }
+  };
+
   const handleSendMessage = async () => {
     if (!inputText.trim()) return;
-    // setOutputText(inputText);
-
-    // const userMessage = { text: inputText, sender: "user", language };
-    // setChatHistory((prev) => [...prev, userMessage]);
-    // setInputText("");
 
     const language = await detectLanguage(inputText);
     const userMessage = {
@@ -102,16 +122,6 @@ const TextProcessor = () => {
 
     setChatHistory((prev) => [...prev, userMessage]);
     setInputText("");
-
-    // const trans = await handleTranslate();
-    // let response;
-
-    // if (trans.length > 0) {
-    //   response = `To ${selectedLanguage}: ${translation}`;
-    // }
-
-    // const botResponse = { text: response, sender: "bot" };
-    // setChatHistory((prev) => [...prev, botResponse]);
   };
 
   return (
@@ -143,11 +153,17 @@ const TextProcessor = () => {
                   </p>
                 )}
                 <div className="flex flex-col md:flex-row gap-2 mb-3">
-                  {msg.text.length > 150 && msg.sender === "user" && (
-                    <button className="px-2 py-1 w-fit rounded-md bg-black text-white border border-black hover:bg-black/80 transition duration-300 hover:ease-in-out">
-                      Summarize
-                    </button>
-                  )}
+                  {msg.text.length > 150 &&
+                    msg.sender === "user" &&
+                    detectedLanguage == "en" && (
+                      <button
+                        onClick={() => handleSummarize(index)}
+                        disabled={isProcessing}
+                        className="px-2 py-1 w-fit rounded-md bg-black text-white border border-black hover:bg-black/80 transition duration-300 hover:ease-in-out"
+                      >
+                        {isProcessing ? "Processing..." : "Summarize"}
+                      </button>
+                    )}
                   {msg.sender === "user" && (
                     <div className="w-full">
                       <button
