@@ -18,14 +18,25 @@ const TextProcessor = () => {
   const [isProcessing, setIsProcessing] = useState(false);
 
   useEffect(() => {
+    if (!("ai" in self)) {
+      toast.warn(
+        "AI features are not supported in this environment. Please use Chrome browser.",
+        {
+          position: "top-center",
+          autoClose: false,
+        }
+      );
+    }
     if (!("ai" in self && "languageDetector" in self.ai)) {
       console.log("Language Detection API is not supported");
     }
     if (!("ai" in self && "translator" in self.ai)) {
       console.log("Translator API is not supported");
+      // toast.error("Translator API is not supported");
     }
     if (!("ai" in self && "summarizer" in self.ai)) {
       console.log("Summarization API is not supported");
+      // toast.error("Summarization API is not supported");
     }
   }, []);
 
@@ -52,7 +63,13 @@ const TextProcessor = () => {
       return languageName;
     } catch (error) {
       console.error("Language detection error:", error);
-      toast.error("Error detecting language: " + error.message);
+      if (error == "Model not available") {
+        toast.error(
+          "Error detecting language: The AI Model is not available on your browser"
+        );
+      } else {
+        toast.error("Error detecting language!");
+      }
     }
   };
 
@@ -185,6 +202,7 @@ const TextProcessor = () => {
         newestOnTop={false}
         pauseOnHover
         theme="dark"
+        role="status"
       />
       <div className="px-6 md:px-10 w-full min-h-screen font-primary flex flex-col justify-center items-center">
         <Header />
