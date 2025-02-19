@@ -195,16 +195,16 @@ const TextProcessor = () => {
     <>
       <ToastContainer
         position="top-right"
-        autoClose={3000}
+        autoClose={4000}
         hideProgressBar={false}
         newestOnTop={false}
         pauseOnHover
         theme="dark"
         role="status"
       />
-      <div className="px-6 md:px-10 w-full min-h-screen font-primary flex flex-col justify-center items-center">
+      <div className="px-3 md:px-10 w-full min-h-screen font-primary flex flex-col justify-center items-center">
         <Header />
-        <section className="relative max-w-[700px] min-h-[600px] md:h-[800px] w-full animate-fadeIn flex flex-col justify-between shadow-md bg-white rounded-lg text-black mt-28 mb-6 md:mb-0 md:mt-5 px-6 pt-8 pb-5">
+        <section className="relative max-w-[700px] h-[85vh] md:h-[800px] w-full animate-fadeIn flex flex-col justify-between shadow-md bg-white rounded-lg text-black mt-20 mb-6 md:mb-0 md:mt-5 px-3 md:px-6 pt-8 pb-5">
           {chatHistory.length > 0 && (
             <div className="absolute top-2 right-3 left-3 flex justify-between items-center">
               <div className="flex gap-1 items-center">
@@ -230,7 +230,8 @@ const TextProcessor = () => {
               >
                 {" "}
                 <ion-icon
-                  size="large"
+                  // size="large"
+                  className="text-2xl md:text-3xl"
                   aria-hidden="true"
                   name="trash-bin"
                 ></ion-icon>
