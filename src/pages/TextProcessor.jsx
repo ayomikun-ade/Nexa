@@ -204,7 +204,7 @@ const TextProcessor = () => {
       />
       <div className="px-3 md:px-10 w-full min-h-screen font-primary flex flex-col justify-center items-center">
         <Header />
-        <section className="relative max-w-[700px] h-[85vh] md:h-[800px] w-full animate-fadeIn flex flex-col justify-between shadow-md bg-white rounded-lg text-black mt-20 mb-6 md:mb-0 md:mt-5 px-3 md:px-6 pt-8 pb-5">
+        <section className="relative max-w-[700px] h-[85vh] md:h-[80vh] w-full animate-fadeIn flex flex-col justify-between shadow-md bg-white rounded-lg text-black mt-20 mb-6 md:mb-0 md:mt-5 px-3 md:px-6 pt-8 pb-5">
           {chatHistory.length > 0 && (
             <div className="absolute top-2 right-3 left-3 flex justify-between items-center">
               <div className="flex gap-1 items-center">
@@ -258,9 +258,9 @@ const TextProcessor = () => {
                     {msg.text}
                   </div>
                   {msg.language && msg.sender === "user" && (
-                    <p className="text-neutral-500 flex items-center mr-2 mb-1.5">
+                    <p className="text-neutral-500 flex text-sm md:text-base items-center mr-2 mb-1.5">
                       <ion-icon
-                        className="mr-1 text-lg"
+                        className="mr-1 text-sm md:text-lg"
                         size="medium"
                         name="globe-outline"
                       ></ion-icon>
@@ -269,9 +269,9 @@ const TextProcessor = () => {
                     </p>
                   )}
                   {msg.type == "translation" && msg.sender === "bot" && (
-                    <p className="text-neutral-500 flex items-center mr-2 mb-1.5">
+                    <p className="text-neutral-500 flex text-sm md:text-base items-center mr-2 mb-1.5">
                       <ion-icon
-                        className="mr-1 text-lg"
+                        className="mr-1 text-sm md:text-lg"
                         size="medium"
                         name="language"
                       ></ion-icon>
@@ -368,7 +368,7 @@ const TextProcessor = () => {
               </button>
             </div>
             <p className="text-center text-sm text-neutral-500 mt-2">
-              Nexa can make mistakes. Check important info.
+              Nexa can make mistakes. Confirm important info.
             </p>
           </section>
         </section>
