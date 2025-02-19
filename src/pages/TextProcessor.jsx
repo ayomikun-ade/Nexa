@@ -51,7 +51,7 @@ const TextProcessor = () => {
       return languageName;
     } catch (error) {
       console.error("Language detection error:", error);
-      alert("Error detecting language: " + error.message);
+      toast.error("Error detecting language: " + error.message);
     }
   };
 
@@ -73,13 +73,6 @@ const TextProcessor = () => {
       const translatedResult = await translator.translate(text);
       console.log(detectedLanguage, targetLanguage);
 
-      // const languageName =
-      //   new Intl.DisplayNames(["en"], { type: "language" }).of(
-      //     targetLanguage
-      //   ) || "Unknown Language";
-      // setTranslanguage(languageName);
-      // console.log(transLanguage);
-
       return translatedResult;
     } catch (error) {
       console.error("Translation error:", error);
@@ -88,8 +81,9 @@ const TextProcessor = () => {
         "Unable to create translator for the given source and target language."
       ) {
         toast.error("Unsupported Language Provided!");
+      } else {
+        toast.error("Error in translation:" + error.message);
       }
-      //   alert("Error translating text: " + error.message);
     } finally {
       setIsTranslating(false);
     }
@@ -183,7 +177,14 @@ const TextProcessor = () => {
 
   return (
     <>
-      <ToastContainer />
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        pauseOnHover
+        theme="dark"
+      />
       <div className="px-6 md:px-10 w-full min-h-screen font-primary flex flex-col justify-center items-center">
         <Header />
         <section className="relative max-w-[700px] min-h-[600px] md:h-[800px] w-full animate-fadeIn flex flex-col justify-between shadow-md bg-white rounded-lg text-black mt-5 px-6 py-8">
