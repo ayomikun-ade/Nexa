@@ -32,11 +32,9 @@ const TextProcessor = () => {
     }
     if (!("ai" in self && "translator" in self.ai)) {
       console.log("Translator API is not supported");
-      // toast.error("Translator API is not supported");
     }
     if (!("ai" in self && "summarizer" in self.ai)) {
       console.log("Summarization API is not supported");
-      // toast.error("Summarization API is not supported");
     }
   }, []);
 
