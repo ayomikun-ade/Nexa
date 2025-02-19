@@ -4,17 +4,15 @@ import { useEffect, useState } from "react";
 import Welcome from "../components/Welcome";
 
 const TextProcessor = () => {
-  // const [chatHistory, setChatHistory] = useState([]);
   const [chatHistory, setChatHistory] = useState(() => {
-    // Load chat history from local storage on initial load
     const storedHistory = localStorage.getItem("chatHistory");
     return storedHistory ? JSON.parse(storedHistory) : [];
   });
   const [inputText, setInputText] = useState("");
-  // const [outputText, setOutputText] = useState("");
-  const [detectedLanguage, setDetectedLanguage] = useState("");
+  const [detectedLanguage, setDetectedLanguage] = useState(() => {
+    return localStorage.getItem("detectedLanguage") || "";
+  });
   const [selectedLanguage, setSelectedLanguage] = useState("");
-  // const [translation, setTranslation] = useState("");
   const [isTranslating, setIsTranslating] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -33,6 +31,10 @@ const TextProcessor = () => {
   useEffect(() => {
     localStorage.setItem("chatHistory", JSON.stringify(chatHistory));
   }, [chatHistory]);
+
+  useEffect(() => {
+    localStorage.setItem("detectedLanguage", detectedLanguage);
+  }, [detectedLanguage]);
 
   const detectLanguage = async (text) => {
     try {
@@ -59,17 +61,26 @@ const TextProcessor = () => {
       toast.error("Can't translate to the same language");
       return;
     }
+
     setIsTranslating(true);
+
     try {
       const translator = await self.ai.translator.create({
         sourceLanguage: detectedLanguage,
         targetLanguage,
       });
+
       const translatedResult = await translator.translate(text);
       console.log(detectedLanguage, targetLanguage);
-      // setTranslation(translatedResult);
-      console.log(translatedResult);
-      return `Translation: ${translatedResult}`;
+
+      // const languageName =
+      //   new Intl.DisplayNames(["en"], { type: "language" }).of(
+      //     targetLanguage
+      //   ) || "Unknown Language";
+      // setTranslanguage(languageName);
+      // console.log(transLanguage);
+
+      return translatedResult;
     } catch (error) {
       console.error("Translation error:", error);
       if (
@@ -106,10 +117,19 @@ const TextProcessor = () => {
   const handleTranslate = async (index) => {
     const message = chatHistory[index];
     const translatedText = await translateText(message.text, selectedLanguage);
+    const languageName =
+      new Intl.DisplayNames(["en"], { type: "language" }).of(
+        selectedLanguage
+      ) || "Unknown Language";
     if (translatedText) {
       setChatHistory((prev) => [
         ...prev,
-        { text: translatedText, sender: "bot", type: "translation" },
+        {
+          text: translatedText,
+          sender: "bot",
+          type: "translation",
+          languageName,
+        },
       ]);
     }
   };
@@ -169,7 +189,9 @@ const TextProcessor = () => {
         <section className="relative max-w-[700px] min-h-[600px] md:h-[800px] w-full animate-fadeIn flex flex-col justify-between shadow-md bg-white rounded-lg text-black mt-5 px-6 py-8">
           {chatHistory.length > 0 && (
             <div className="absolute top-2 right-3 left-3 flex justify-between items-center">
-              <h3 className="font-semibold font-main text-2xl ml-2">Chat</h3>
+              <h3 className="font-semibold font-main text-2xl tracking-normal ml-2">
+                Chat
+              </h3>
               <button
                 aria-label="Clear chats button"
                 onClick={handleClearAll}
@@ -214,6 +236,17 @@ const TextProcessor = () => {
                       <span className="ml-1"> {msg.language}</span>
                     </p>
                   )}
+                  {msg.type == "translation" && msg.sender === "bot" && (
+                    <p className="text-neutral-500 flex items-center mr-2 mb-1.5">
+                      <ion-icon
+                        className="mr-1 text-lg"
+                        size="medium"
+                        name="language"
+                      ></ion-icon>
+                      Translated to:{" "}
+                      <span className="ml-1"> {msg.languageName}</span>
+                    </p>
+                  )}
                   <div className="flex flex-col md:flex-row gap-2 mb-3">
                     {msg.text.length > 150 &&
                       msg.sender === "user" &&
@@ -238,10 +271,24 @@ const TextProcessor = () => {
                       )}
                     {msg.sender === "user" && (
                       <div className="w-full flex items-center">
+                        <select
+                          onChange={handleLanguageChange}
+                          className="px-1 py-1 rounded-md border border-transparent focus:border-neutral-600 disabled:cursor-not-allowed disabled:opacity-70"
+                        >
+                          <option selected disabled>
+                            Select Language
+                          </option>
+                          <option value="en">English</option>
+                          <option value="pt">Portuguese</option>
+                          <option value="es">Spanish</option>
+                          <option value="ru">Russian</option>
+                          <option value="tr">Turkish</option>
+                          <option value="fr">French</option>
+                        </select>
                         <button
                           onClick={() => handleTranslate(index)}
                           disabled={isProcessing || isTranslating}
-                          className="px-2 py-1 rounded-md border border-neutral-800 mr-2 disabled:cursor-not-allowed disabled:opacity-70 hover:bg-neutral-300 transition duration-300 hover:ease-in-out"
+                          className="px-2 py-1 rounded-md border border-neutral-800 ml-2 disabled:cursor-not-allowed disabled:opacity-70 hover:bg-neutral-300 transition duration-300 hover:ease-in-out"
                         >
                           {isTranslating ? (
                             <span className="w-fit">
@@ -255,18 +302,6 @@ const TextProcessor = () => {
                             "Translate"
                           )}
                         </button>
-                        <select
-                          onChange={handleLanguageChange}
-                          className="outline-none bg-transparent"
-                        >
-                          <option disabled>Select Language</option>
-                          <option value="en">English</option>
-                          <option value="pt">Portuguese</option>
-                          <option value="es">Spanish</option>
-                          <option value="ru">Russian</option>
-                          <option value="tr">Turkish</option>
-                          <option value="fr">French</option>
-                        </select>
                       </div>
                     )}
                   </div>
