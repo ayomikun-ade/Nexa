@@ -2,6 +2,7 @@ import { toast, ToastContainer } from "react-toastify";
 import Header from "../components/Header";
 import { useEffect, useState } from "react";
 import Welcome from "../components/Welcome";
+import { Link } from "react-router";
 
 const TextProcessor = () => {
   const [chatHistory, setChatHistory] = useState(() => {
@@ -190,9 +191,17 @@ const TextProcessor = () => {
         <section className="relative max-w-[700px] min-h-[600px] md:h-[800px] w-full animate-fadeIn flex flex-col justify-between shadow-md bg-white rounded-lg text-black mt-5 px-6 py-8">
           {chatHistory.length > 0 && (
             <div className="absolute top-2 right-3 left-3 flex justify-between items-center">
-              <h3 className="font-semibold font-main text-2xl tracking-normal ml-2">
-                Chat
-              </h3>
+              <div className="flex gap-1 items-center">
+                <Link
+                  to="/"
+                  className="hover:scale-105 transition duration-300 hover:ease-in-out"
+                >
+                  <ion-icon className="text-2xl" name="home-outline"></ion-icon>
+                </Link>
+                <h3 className="font-semibold font-main text-2xl tracking-normal ml-2">
+                  Chat
+                </h3>
+              </div>
               <button
                 aria-label="Clear chats button"
                 onClick={handleClearAll}
@@ -330,6 +339,9 @@ const TextProcessor = () => {
                 <ion-icon className="p-0" name="send-outline"></ion-icon>
               </button>
             </div>
+            <p className="text-center text-sm text-neutral-500 mt-2">
+              Nexa can make mistakes. Check important info.
+            </p>
           </section>
         </section>
       </div>

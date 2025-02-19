@@ -20,7 +20,7 @@ export default {
         },
       },
       animation: {
-        fadeIn: "fadeIn 0.5s ease-out",
+        fadeIn: "fadeIn 1s ease-out",
         textIn: "textIn 1s",
       },
     },
