@@ -109,8 +109,8 @@ const TextProcessor = () => {
     setSelectedLanguage(e.target.value);
   };
 
-  const handleTranslate = async (index) => {
-    const message = chatHistory[index];
+  const handleTranslate = async () => {
+    const message = chatHistory[chatHistory.length - 1];
     const translatedText = await translateText(message.text, selectedLanguage);
     const languageName =
       new Intl.DisplayNames(["en"], { type: "language" }).of(
@@ -129,8 +129,8 @@ const TextProcessor = () => {
     }
   };
 
-  const handleSummarize = async (index) => {
-    const message = chatHistory[index];
+  const handleSummarize = async () => {
+    const message = chatHistory[chatHistory.length - 1];
     const summarizedText = await summarizeText(message.text);
     if (summarizedText) {
       setChatHistory((prev) => [
@@ -188,15 +188,20 @@ const TextProcessor = () => {
       />
       <div className="px-6 md:px-10 w-full min-h-screen font-primary flex flex-col justify-center items-center">
         <Header />
-        <section className="relative max-w-[700px] min-h-[600px] md:h-[800px] w-full animate-fadeIn flex flex-col justify-between shadow-md bg-white rounded-lg text-black mt-5 px-6 py-8">
+        <section className="relative max-w-[700px] min-h-[600px] md:h-[800px] w-full animate-fadeIn flex flex-col justify-between shadow-md bg-white rounded-lg text-black mt-28 mb-6 md:mb-0 md:mt-5 px-6 pt-8 pb-5">
           {chatHistory.length > 0 && (
             <div className="absolute top-2 right-3 left-3 flex justify-between items-center">
               <div className="flex gap-1 items-center">
                 <Link
                   to="/"
+                  aria-label="Home button"
                   className="hover:scale-105 transition duration-300 hover:ease-in-out"
                 >
-                  <ion-icon className="text-2xl" name="home-outline"></ion-icon>
+                  <ion-icon
+                    className="text-2xl"
+                    aria-hidden="true"
+                    name="home-outline"
+                  ></ion-icon>
                 </Link>
                 <h3 className="font-semibold font-main text-2xl tracking-normal ml-2">
                   Chat
@@ -257,64 +262,6 @@ const TextProcessor = () => {
                       <span className="ml-1"> {msg.languageName}</span>
                     </p>
                   )}
-                  <div className="flex flex-col md:flex-row gap-2 mb-3">
-                    {msg.text.length > 150 &&
-                      msg.sender === "user" &&
-                      detectedLanguage == "en" && (
-                        <button
-                          onClick={() => handleSummarize(index)}
-                          disabled={isProcessing || isTranslating}
-                          className="px-2 py-1 w-fit rounded-md bg-black disabled:cursor-not-allowed disabled:opacity-70 text-white border border-black hover:bg-black/80 transition duration-300 hover:ease-in-out"
-                        >
-                          {isProcessing ? (
-                            <span className="w-fit flex items-center">
-                              <ion-icon
-                                className="text-white animate-spin"
-                                name="refresh-outline"
-                              ></ion-icon>
-                              Processing...
-                            </span>
-                          ) : (
-                            "Summarize"
-                          )}
-                        </button>
-                      )}
-                    {msg.sender === "user" && (
-                      <div className="w-full flex items-center">
-                        <select
-                          onChange={handleLanguageChange}
-                          className="px-1 py-1 rounded-md border border-transparent focus:border-neutral-600 disabled:cursor-not-allowed disabled:opacity-70"
-                        >
-                          <option selected disabled>
-                            Select Language
-                          </option>
-                          <option value="en">English</option>
-                          <option value="pt">Portuguese</option>
-                          <option value="es">Spanish</option>
-                          <option value="ru">Russian</option>
-                          <option value="tr">Turkish</option>
-                          <option value="fr">French</option>
-                        </select>
-                        <button
-                          onClick={() => handleTranslate(index)}
-                          disabled={isProcessing || isTranslating}
-                          className="px-2 py-1 rounded-md border border-neutral-800 ml-2 disabled:cursor-not-allowed disabled:opacity-70 hover:bg-neutral-300 transition duration-300 hover:ease-in-out"
-                        >
-                          {isTranslating ? (
-                            <span className="w-fit">
-                              <ion-icon
-                                className="text-black animate-spin"
-                                name="refresh-outline"
-                              ></ion-icon>
-                              Translating...
-                            </span>
-                          ) : (
-                            "Translate"
-                          )}
-                        </button>
-                      </div>
-                    )}
-                  </div>
                 </div>
               ))}
             </section>
@@ -322,8 +269,72 @@ const TextProcessor = () => {
             <Welcome />
           )}
 
-          <section>
-            <div className="has-[:focus]:border-neutral-900 mt-3 w-full border-2 border-neutral-300 flex items-end rounded-lg p-2 gap-2">
+          <section className="mt-3">
+            {chatHistory.length > 0 && (
+              <div className="flex flex-col md:flex-row gap-2 mb-3">
+                {chatHistory[chatHistory.length - 1]?.text.length > 150 &&
+                  chatHistory[chatHistory.length - 1].sender === "user" &&
+                  detectedLanguage == "en" && (
+                    <button
+                      onClick={() =>
+                        handleSummarize(chatHistory[chatHistory.length - 1])
+                      }
+                      disabled={isProcessing || isTranslating}
+                      className="px-2 py-1 w-fit rounded-md bg-black disabled:cursor-not-allowed disabled:opacity-70 text-white border border-black hover:bg-black/80 transition duration-300 hover:ease-in-out"
+                    >
+                      {isProcessing ? (
+                        <span className="w-fit flex items-center">
+                          <ion-icon
+                            className="text-white animate-spin"
+                            name="refresh-outline"
+                          ></ion-icon>
+                          Processing...
+                        </span>
+                      ) : (
+                        "Summarize"
+                      )}
+                    </button>
+                  )}
+                {chatHistory[chatHistory.length - 1].sender === "user" && (
+                  <div className="w-full flex items-center">
+                    <select
+                      onChange={handleLanguageChange}
+                      className="px-1 py-1 rounded-md border border-transparent focus:border-neutral-600 disabled:cursor-not-allowed disabled:opacity-70"
+                    >
+                      <option selected disabled>
+                        Select Language
+                      </option>
+                      <option value="en">English</option>
+                      <option value="pt">Portuguese</option>
+                      <option value="es">Spanish</option>
+                      <option value="ru">Russian</option>
+                      <option value="tr">Turkish</option>
+                      <option value="fr">French</option>
+                    </select>
+                    <button
+                      onClick={() =>
+                        handleTranslate(chatHistory[chatHistory.length - 1])
+                      }
+                      disabled={isProcessing || isTranslating}
+                      className="px-2 py-1 rounded-md border border-neutral-800 ml-2 disabled:cursor-not-allowed disabled:opacity-70 hover:bg-neutral-300 transition duration-300 hover:ease-in-out"
+                    >
+                      {isTranslating ? (
+                        <span className="w-fit">
+                          <ion-icon
+                            className="text-black animate-spin"
+                            name="refresh-outline"
+                          ></ion-icon>
+                          Translating...
+                        </span>
+                      ) : (
+                        "Translate"
+                      )}
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
+            <div className="has-[:focus]:border-neutral-900 w-full border-2 border-neutral-300 flex items-end rounded-lg p-2 gap-2">
               <textarea
                 rows={3}
                 placeholder="Enter you text here:"
