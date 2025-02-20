@@ -229,14 +229,15 @@ const TextProcessor = () => {
                         <button
                           onClick={() => handleSummarize(index)}
                           disabled={isProcessing || isTranslating}
-                          className="px-2 py-1 w-fit rounded-md bg-black disabled:cursor-not-allowed disabled:opacity-70 text-white border border-black hover:bg-black/80 transition duration-300 hover:ease-in-out"
+                          className="px-2 py-1 w-full rounded-md bg-black disabled:cursor-not-allowed disabled:opacity-70 text-white border border-black hover:bg-black/80 transition duration-300 hover:ease-in-out"
                         >
                           {isProcessing ? (
                             <span className="w-fit flex items-center">
-                              <ion-icon
-                                className="text-white animate-spin"
-                                name="refresh-outline"
-                              ></ion-icon>
+                              <img
+                                src="/loading-white.svg"
+                                className="animate-spin mr-1 w-5 h-5"
+                                alt="loading image"
+                              />
                               Processing...
                             </span>
                           ) : (
@@ -266,11 +267,12 @@ const TextProcessor = () => {
                           className="px-2 py-1 rounded-md border border-neutral-800 ml-2 disabled:cursor-not-allowed disabled:opacity-70 hover:bg-neutral-300 transition duration-300 hover:ease-in-out"
                         >
                           {isTranslating ? (
-                            <span className="w-fit">
-                              <ion-icon
-                                className="text-black animate-spin"
-                                name="refresh-outline"
-                              ></ion-icon>
+                            <span className="w-fit flex items-center">
+                              <img
+                                src="/loading.svg"
+                                className="text-black animate-spin mr-1 w-5 h-5"
+                                alt="loading image"
+                              />
                               Translating...
                             </span>
                           ) : (
