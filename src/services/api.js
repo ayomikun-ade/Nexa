@@ -16,9 +16,12 @@ export const detectLanguage = async (text, setDetectedLanguage) => {
   } catch (error) {
     console.error("Language detection error:", error);
     if (error == "Model not available") {
-      toast.error(
-        "Error detecting language: The AI Model is not available on your browser"
-      );
+      toast.error("The AI Model is not supported on your browser.");
+    } else if (
+      error ==
+      "TypeError: Cannot read properties of undefined (reading 'create')"
+    ) {
+      toast.error("Language detection is not supported");
     } else {
       toast.error("Error detecting language!");
     }
@@ -70,7 +73,11 @@ export const summarizeText = async (text, setIsProcessing) => {
     return `Summary: ${output}`;
   } catch (error) {
     console.error("Summarization error:", error);
-    toast.error("Summarization failed!");
+    if (error == "InvalidStateError: The session cannot be created.") {
+      toast.error("Summarization AI unsupported by browser!");
+    } else {
+      toast.error("Summarization failed!");
+    }
     return "";
   } finally {
     setIsProcessing(false);
