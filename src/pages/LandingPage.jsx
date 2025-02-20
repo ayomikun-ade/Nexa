@@ -14,6 +14,9 @@ const LandingPage = () => {
           cutting-edge language detection, translation and summarization
           techniques
         </p>
+        <span className="text-sm text-neutral-400 font-primary underline">
+          Terms and Conditions Apply
+        </span>
         <Link
           to="/terms-and-conditions"
           className="bg-neutral-600 hover:bg-neutral-400 transition duration-500 hover:ease-in-out px-3 py-2 rounded-md font-primary mt-5"

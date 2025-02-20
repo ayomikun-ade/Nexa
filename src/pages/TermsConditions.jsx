@@ -52,18 +52,21 @@ const TermsConditions = () => {
               go to the following pages and enable the following:
               <ul className="text-blue-600 text-sm mt-2">
                 <li
+                  tabIndex={0}
                   onClick={handleCopy}
                   className="hover:no-underline underline"
                 >
                   chrome://flags/#translation-api
                 </li>
                 <li
+                  tabIndex={0}
                   onClick={handleCopy}
                   className="hover:no-underline underline"
                 >
                   chrome://flags/#language-detection-api
                 </li>
                 <li
+                  tabIndex={0}
                   onClick={handleCopy}
                   className="hover:no-underline underline"
                 >
