@@ -15,7 +15,7 @@ const LandingPage = () => {
           techniques
         </p>
         <Link
-          to="/text-processor"
+          to="/terms-and-conditions"
           className="bg-neutral-600 hover:bg-neutral-400 transition duration-500 hover:ease-in-out px-3 py-2 rounded-md font-primary mt-5"
         >
           Get Started
