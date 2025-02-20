@@ -67,10 +67,16 @@ export const translateText = async (
 
 export const summarizeText = async (text, setIsProcessing) => {
   setIsProcessing(true);
+  const options = {
+    type: "key-points",
+    format: "plain-text",
+    length: "short",
+  };
+
   try {
-    const summarizer = await self.ai.summarizer.create();
+    const summarizer = await self.ai.summarizer.create(options);
     const output = await summarizer.summarize(text);
-    return `Summary: ${output}`;
+    return output;
   } catch (error) {
     console.error("Summarization error:", error);
     if (error == "InvalidStateError: The session cannot be created.") {

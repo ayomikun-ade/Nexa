@@ -147,7 +147,7 @@ const TextProcessor = () => {
       />
       <div className="px-3 md:px-10 w-full min-h-screen font-primary flex flex-col justify-center items-center">
         <Header />
-        <section className="relative max-w-[700px] h-[85vh] md:h-[80vh] w-full animate-fadeIn flex flex-col justify-between shadow-md bg-white rounded-lg text-black mt-20 mb-6 md:mb-0 md:mt-5 px-3 md:px-6 pt-8 pb-5">
+        <section className="relative max-w-[700px] h-[85vh] md:h-[80vh] w-full animate-fadeIn flex flex-col justify-between shadow-md shadow-neutral-600 bg-white rounded-lg text-black mt-20 mb-6 md:mb-0 md:mt-5 px-3 md:px-6 pt-8 pb-5">
           {chatHistory.length > 0 && (
             <div className="absolute top-2 right-3 left-3 flex justify-between items-center">
               <div className="flex gap-1 items-center">
@@ -192,13 +192,20 @@ const TextProcessor = () => {
                   }`}
                 >
                   <div
-                    className={`px-3 py-2 w-[90%] md:w-[70%] animate-textIn rounded-lg mb-2 ${
+                    className={`px-3 py-2 w-[90%] md:w-[70%] animate-textIn shadow-md rounded-lg mb-2 ${
                       msg.sender === "user"
                         ? "bg-black text-white"
                         : "bg-neutral-200 text-black"
                     }`}
                   >
-                    {msg.text}
+                    {msg.type == "summary" ? (
+                      <p>
+                        <span className="font-semibold block">Summary:</span>
+                        {msg.text}
+                      </p>
+                    ) : (
+                      <span>{msg.text}</span>
+                    )}
                   </div>
                   {msg.language && msg.sender === "user" && (
                     <p className="text-neutral-500 flex text-sm md:text-base items-center mr-2 mb-1.5">
@@ -290,7 +297,7 @@ const TextProcessor = () => {
           )}
 
           <section className="mt-3">
-            <div className="has-[:focus]:border-neutral-900 w-full border-2 border-neutral-300 flex items-end rounded-xl p-2 gap-2">
+            <div className="has-[:focus]:border-neutral-900 w-full border-2 shadow-md border-neutral-300 flex items-end rounded-xl p-2 gap-2">
               <textarea
                 rows={3}
                 placeholder="Enter you text here:"
