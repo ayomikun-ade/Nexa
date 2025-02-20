@@ -3,6 +3,8 @@ import Header from "../components/Header";
 import { useEffect, useState } from "react";
 import Welcome from "../components/Welcome";
 import { Link } from "react-router";
+import { detectLanguage, translateText, summarizeText } from "../services/api";
+import Disclaimer from "../components/Disclaimer";
 
 const TextProcessor = () => {
   const [chatHistory, setChatHistory] = useState(() => {
@@ -46,87 +48,18 @@ const TextProcessor = () => {
     localStorage.setItem("detectedLanguage", detectedLanguage);
   }, [detectedLanguage]);
 
-  const detectLanguage = async (text) => {
-    try {
-      const detector = await self.ai.languageDetector.create();
-      const result = await detector.detect(text);
-
-      const detectedCode = result[0].detectedLanguage;
-      const languageName =
-        new Intl.DisplayNames(["en"], { type: "language" }).of(detectedCode) ||
-        "Unknown Language";
-
-      console.log(languageName);
-      setDetectedLanguage(detectedCode);
-      return languageName;
-    } catch (error) {
-      console.error("Language detection error:", error);
-      if (error == "Model not available") {
-        toast.error(
-          "Error detecting language: The AI Model is not available on your browser"
-        );
-      } else {
-        toast.error("Error detecting language!");
-      }
-    }
-  };
-
-  const translateText = async (text, targetLanguage) => {
-    console.log(detectedLanguage, targetLanguage);
-    if (detectedLanguage == targetLanguage) {
-      toast.error("Can't translate to the same language");
-      return;
-    }
-
-    setIsTranslating(true);
-
-    try {
-      const translator = await self.ai.translator.create({
-        sourceLanguage: detectedLanguage,
-        targetLanguage,
-      });
-
-      const translatedResult = await translator.translate(text);
-      console.log(detectedLanguage, targetLanguage);
-
-      return translatedResult;
-    } catch (error) {
-      console.error("Translation error:", error);
-      if (
-        error.message ==
-        "Unable to create translator for the given source and target language."
-      ) {
-        toast.error("Unsupported Language Provided!");
-      } else {
-        toast.error("Error in translation:" + error.message);
-      }
-    } finally {
-      setIsTranslating(false);
-    }
-  };
-
-  const summarizeText = async (text) => {
-    setIsProcessing(true);
-    try {
-      const summarizer = await self.ai.summarizer.create();
-      const output = await summarizer.summarize(text);
-      return `Summary: ${output}`;
-    } catch (error) {
-      console.error("Summarization error:", error);
-      toast.error("Summarization failed!");
-      return "";
-    } finally {
-      setIsProcessing(false);
-    }
-  };
-
   const handleLanguageChange = (e) => {
     setSelectedLanguage(e.target.value);
   };
 
   const handleTranslate = async (index) => {
     const message = chatHistory[index];
-    const translatedText = await translateText(message.text, selectedLanguage);
+    const translatedText = await translateText(
+      message.text,
+      detectedLanguage,
+      selectedLanguage,
+      setIsTranslating
+    );
     const languageName =
       new Intl.DisplayNames(["en"], { type: "language" }).of(
         selectedLanguage
@@ -146,7 +79,7 @@ const TextProcessor = () => {
 
   const handleSummarize = async (index) => {
     const message = chatHistory[index];
-    const summarizedText = await summarizeText(message.text);
+    const summarizedText = await summarizeText(message.text, setIsProcessing);
     if (summarizedText) {
       setChatHistory((prev) => [
         ...prev,
@@ -161,7 +94,7 @@ const TextProcessor = () => {
       return;
     }
 
-    const language = await detectLanguage(inputText);
+    const language = await detectLanguage(inputText, setDetectedLanguage);
     const userMessage = {
       text: inputText,
       sender: "user",
@@ -169,7 +102,7 @@ const TextProcessor = () => {
     };
 
     setChatHistory((prev) => [...prev, userMessage]);
-    console.log(chatHistory);
+    // console.log(chatHistory);
     setInputText("");
   };
 
@@ -229,7 +162,7 @@ const TextProcessor = () => {
                     name="home-outline"
                   ></ion-icon>
                 </Link>
-                <h3 className="font-semibold font-main text-2xl tracking-normal ml-2">
+                <h3 className="font-semibold flex items-center gap-1 font-main text-2xl tracking-normal ml-2">
                   Chat
                 </h3>
               </div>
@@ -368,15 +301,13 @@ const TextProcessor = () => {
               <button
                 onClick={handleSendMessage}
                 disabled={isProcessing || isTranslating}
-                className="text-2xl hover:text-[#737475] disabled:cursor-not-allowed disabled:opacity-70 transition duration-300 hover:ease-in-out"
+                className="text-2xl hover:text-green-700 disabled:cursor-not-allowed disabled:opacity-70 transition duration-300 hover:ease-in-out"
                 aria-label="Send message"
               >
                 <ion-icon className="p-0" name="send-outline"></ion-icon>
               </button>
             </div>
-            <p className="text-center text-sm text-neutral-500 mt-2">
-              Nexa can make mistakes. Confirm important info.
-            </p>
+            <Disclaimer />
           </section>
         </section>
       </div>
