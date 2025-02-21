@@ -36,19 +36,19 @@ const TermsConditions = () => {
           </h2>
           <ul className="text-center list-inside my-8 flex flex-col items-center">
             <li>
-              📑 This website only works on Chrome browsers due to the built-in
+              ⚜️ This website only works on Chrome browsers due to the built-in
               Chrome AI APIs used.
             </li>
             <li>
-              📑 Chrome Browser version should be between Chrome 131 to Chrome
+              ⚜️ Chrome Browser version should be between Chrome 131 to Chrome
               136
             </li>
             <li>
-              📑 For better functionality, use this website on a PC or Desktop
+              ⚜️ For better functionality, use this website on a PC or Desktop
               computer.
             </li>
             <li className="text-center text-black flex- flex-col">
-              📑 Incase of any errors referring to support for browsers. Please
+              ⚜️ Incase of any errors referring to support for browsers. Please
               go to the following pages and enable the following:
               <ul className="text-blue-600 text-sm mt-2">
                 <li
@@ -73,7 +73,7 @@ const TermsConditions = () => {
                   chrome://flags/#summarization-api-for-gemini-nano
                 </li>
                 <li className="text-black no-underline mt-3 text-base">
-                  📑 After enabling each of them, relaunch your browser and
+                  ⚜️ After enabling each of them, relaunch your browser and
                   you&apos;re good to go.
                 </li>
               </ul>
@@ -81,7 +81,7 @@ const TermsConditions = () => {
           </ul>
           <Link
             to="/text-processor"
-            className="bg-black px-8 hover:bg-black/80 py-1 rounded-lg mt-3 text-white w-fit self-center transition duration-300 hover:ease-in-out "
+            className="bg-black text-lg px-8 hover:bg-black/80 py-1 rounded-lg mt-3 text-white w-fit self-center transition duration-300 hover:ease-in-out "
           >
             Let&apos;s Roll
           </Link>

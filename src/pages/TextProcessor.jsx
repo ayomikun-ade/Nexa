@@ -300,7 +300,7 @@ const TextProcessor = () => {
             <div className="has-[:focus]:border-neutral-900 w-full border-2 shadow-md border-neutral-300 flex items-end rounded-xl p-2 gap-2">
               <textarea
                 rows={3}
-                placeholder="Enter you text here:"
+                placeholder="Enter message here. Press Enter to Submit and Shift+Enter for new line."
                 className="w-full outline-none focus:border-neutral-500 "
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
