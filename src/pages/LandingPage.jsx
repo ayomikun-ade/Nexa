@@ -14,16 +14,25 @@ const LandingPage = () => {
           cutting-edge language detection, translation and summarization
           techniques
         </p>
-        <span className="text-sm text-neutral-400 font-primary underline">
+        {/* <span className="text-sm text-neutral-400 font-primary underline">
           Terms and Conditions Apply
-        </span>
-        <Link
-          aria-label="Link to key points page"
-          to="/terms-and-conditions"
-          className="bg-neutral-600 hover:bg-neutral-400 transition duration-500 hover:ease-in-out px-3 py-2 rounded-md font-primary mt-5"
-        >
-          Get Started
-        </Link>
+        </span> */}
+        <div className="mt-5 flex flex-col h-fit items-center md:justify-center md:flex-row w-fit gap-2">
+          <Link
+            aria-label="Link to documentation page"
+            to="/docs"
+            className="bg-neutral-600 w-fit h-full border-2 border-neutral-600 hover:border-neutral-400 hover:bg-neutral-400 transition duration-500 hover:ease-in-out px-3 py-2 rounded-md font-primary"
+          >
+            Get Started
+          </Link>
+          <Link
+            aria-label="Link to key points page"
+            to="/text-processor"
+            className="border-2 border-neutral-600 hover:bg-neutral-600 w-full md:w-fit h-full transition duration-500 hover:ease-in-out px-3 py-2 rounded-md font-primary"
+          >
+            Try Now
+          </Link>
+        </div>
       </main>
     </div>
   );

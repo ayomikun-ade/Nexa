@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router";
 import LandingPage from "./pages/LandingPage";
 import TextProcessor from "./pages/TextProcessor";
-import TermsConditions from "./pages/TermsConditions";
+import Documentation from "./pages/Documentation";
 
 const App = () => {
   return (
@@ -13,7 +13,7 @@ const App = () => {
         <Routes>
           <Route index element={<LandingPage />} />
           <Route path="/text-processor" element={<TextProcessor />} />
-          <Route path="/terms-and-conditions" element={<TermsConditions />} />
+          <Route path="/docs" element={<Documentation />} />
         </Routes>
       </BrowserRouter>
     </div>

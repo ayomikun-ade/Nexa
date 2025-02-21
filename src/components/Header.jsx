@@ -12,14 +12,22 @@ const Header = () => {
           nexa
         </Link>
       </h2>
-      <Link
-        to="https://www.github.com/ayomikun-ade/nexa"
-        target="_blank"
-        aria-label="link to github repository of website"
-        className="text-4xl hover:text-[#737475] transition duration-300 hover:ease-in-out"
-      >
-        <ion-icon aria-hidden="true" name="logo-github"></ion-icon>
-      </Link>
+      <section className="flex items-center gap-4 font-main">
+        <Link
+          to="/docs"
+          className="text-xl uppercase hover:text-[#737475] transition duration-300 hover:ease-in-out"
+        >
+          Docs
+        </Link>
+        <Link
+          to="https://www.github.com/ayomikun-ade/nexa"
+          target="_blank"
+          aria-label="link to github repository of website"
+          className="text-3xl hover:text-[#737475] transition duration-300 hover:ease-in-out"
+        >
+          <ion-icon aria-hidden="true" name="logo-github"></ion-icon>
+        </Link>
+      </section>
     </header>
   );
 };
