@@ -98,7 +98,14 @@ export const summarizeText = async (text, setIsProcessing) => {
 
   try {
     const summarizer = await self.ai.summarizer.create(options);
-    const output = await summarizer.summarize(text);
+    let output = await summarizer.summarize(text);
+    output = output
+      .replace(/\*\*/g, "")
+      .replace(/\*/g, "")
+      .replace(/-/g, "\n")
+      .replace(/\s+/g, " ")
+      .trim();
+
     return output;
   } catch (error) {
     console.error("Summarization error:", error);
