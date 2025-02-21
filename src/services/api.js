@@ -1,4 +1,5 @@
 // services/apiFunctions.js
+import { isChrome, isMobile } from "react-device-detect";
 import { toast } from "react-toastify";
 
 //function to handle language detection
@@ -18,8 +19,17 @@ export const detectLanguage = async (text, setDetectedLanguage) => {
     return languageName;
   } catch (error) {
     console.error("Language detection error:", error);
-    if (error == "Model not available") {
-      toast.error("The AI Model is not supported on your browser.");
+
+    if (!isChrome || isMobile) {
+      toast.error(
+        "Language Detection API isn't supported on this device or browser!",
+        {
+          position: "top-center",
+          autoClose: false,
+        }
+      );
+    } else if (error == "Model not available") {
+      toast.error("Language Detection API is not supported on your browser.");
     } else if (
       error ==
       "TypeError: Cannot read properties of undefined (reading 'create')"
@@ -56,6 +66,16 @@ export const translateText = async (
     return translatedResult;
   } catch (error) {
     console.error("Translation error:", error);
+
+    if (!isChrome || isMobile) {
+      return toast.error(
+        "Translator API isn't supported on this device or browser!",
+        {
+          position: "top-center",
+          autoClose: false,
+        }
+      );
+    }
     if (
       error.message ===
       "Unable to create translator for the given source and target language."
@@ -86,6 +106,15 @@ export const summarizeText = async (text, setIsProcessing) => {
     return output;
   } catch (error) {
     console.error("Summarization error:", error);
+    if (!isChrome || isMobile) {
+      return toast.error(
+        "Summarize API isn't supported on this device or browser!",
+        {
+          position: "top-center",
+          autoClose: false,
+        }
+      );
+    }
     if (error == "InvalidStateError: The session cannot be created.") {
       toast.error("Summarization AI unsupported by browser!");
     } else {

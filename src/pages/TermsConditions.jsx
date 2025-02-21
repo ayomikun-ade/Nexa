@@ -1,8 +1,21 @@
 import { Link } from "react-router";
 import Header from "../components/Header";
 import { toast, ToastContainer } from "react-toastify";
+import { useEffect } from "react";
+import { isChrome, isMobile } from "react-device-detect";
 
 const TermsConditions = () => {
+  useEffect(() => {
+    if (!isChrome || isMobile) {
+      toast.warn(
+        "Device or Browser isn't supported. Use Chrome on a PC or Desktop!",
+        {
+          position: "top-center",
+          autoClose: false,
+        }
+      );
+    }
+  }, []);
   // function to handle copy to clipboard
   const handleCopy = async (event) => {
     try {
@@ -11,8 +24,6 @@ const TermsConditions = () => {
       console.log("Text copied to clipboard!");
       toast.info("Copied to Clipboard!", {
         autoClose: 3000,
-        theme: "dark",
-        role: "status",
       });
     } catch (error) {
       console.error("Error copying text:", error);
@@ -27,7 +38,7 @@ const TermsConditions = () => {
 
   return (
     <>
-      <ToastContainer />
+      <ToastContainer role="status" theme="dark" />
       <div className="px-3 md:px-10 w-full min-h-screen font-primary flex flex-col justify-center items-center">
         <Header />
         <section className="relative max-w-[700px] h-fit w-full animate-fadeIn flex flex-col shadow-md bg-white rounded-lg text-black mt-20 mb-6 md:mb-0 md:mt-5 px-3 md:px-6 py-10">

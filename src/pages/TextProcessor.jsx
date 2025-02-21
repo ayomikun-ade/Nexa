@@ -21,13 +21,10 @@ const TextProcessor = () => {
 
   useEffect(() => {
     if (!("ai" in self)) {
-      toast.warn(
-        "AI features are not supported in this environment. Please use Chrome browser.",
-        {
-          position: "top-center",
-          autoClose: false,
-        }
-      );
+      toast.warn("AI features are not supported in this environment.", {
+        position: "top-center",
+        autoClose: false,
+      });
     }
     if (!("ai" in self && "languageDetector" in self.ai)) {
       console.log("Language Detection API is not supported");
@@ -186,7 +183,7 @@ const TextProcessor = () => {
 
           {/* Output Area Section */}
           {chatHistory.length > 0 ? (
-            <section className="overflow-y-auto mt-8 rounded-md overflow-x-hidden">
+            <section className="overflow-y-auto mt-8 px-1 rounded-md overflow-x-hidden">
               {chatHistory.map((msg, index) => (
                 <div
                   key={index}
@@ -307,7 +304,7 @@ const TextProcessor = () => {
             <div className="has-[:focus]:border-neutral-900 w-full border-2 shadow-md border-neutral-300 flex items-end rounded-xl p-2 gap-2">
               <textarea
                 rows={3}
-                placeholder="Enter message here. Press Enter to Submit and Shift+Enter for new line."
+                placeholder="Enter message here. Press Enter to Submit."
                 className="w-full outline-none focus:border-neutral-500 "
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
