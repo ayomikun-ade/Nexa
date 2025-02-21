@@ -1,4 +1,4 @@
-### **Nexa | AI Text Processor**
+# **Nexa | AI Text Processor**
 
 🚀 A web-based text processing tool leveraging Chrome's AI APIs to provide text summarization, translation, and language detection. Built with **React** and `useState` for state management, it ensures accessibility, responsiveness, and proper error handling.
 
