@@ -68,15 +68,11 @@ export const translateText = async (
     console.error("Translation error:", error);
 
     if (!isChrome || isMobile) {
-      return toast.error(
-        "Translator API isn't supported on this device or browser!",
-        {
-          position: "top-center",
-          autoClose: false,
-        }
-      );
-    }
-    if (
+      toast.error("Translator API isn't supported on this device or browser!", {
+        position: "top-center",
+        autoClose: false,
+      });
+    } else if (
       error.message ===
       "Unable to create translator for the given source and target language."
     ) {
@@ -107,15 +103,11 @@ export const summarizeText = async (text, setIsProcessing) => {
   } catch (error) {
     console.error("Summarization error:", error);
     if (!isChrome || isMobile) {
-      return toast.error(
-        "Summarize API isn't supported on this device or browser!",
-        {
-          position: "top-center",
-          autoClose: false,
-        }
-      );
-    }
-    if (error == "InvalidStateError: The session cannot be created.") {
+      toast.error("Summarize API isn't supported on this device or browser!", {
+        position: "top-center",
+        autoClose: false,
+      });
+    } else if (error == "InvalidStateError: The session cannot be created.") {
       toast.error("Summarization AI unsupported by browser!");
     } else {
       toast.error("Summarization failed!");
