@@ -1,11 +1,14 @@
-// utils/apiFunctions.js
+// services/apiFunctions.js
 import { toast } from "react-toastify";
 
+//function to handle language detection
 export const detectLanguage = async (text, setDetectedLanguage) => {
   try {
     const detector = await self.ai.languageDetector.create();
     const result = await detector.detect(text);
     const detectedCode = result[0].detectedLanguage;
+
+    // gets original name of language code
     const languageName =
       new Intl.DisplayNames(["en"], { type: "language" }).of(detectedCode) ||
       "Unknown Language";
@@ -28,6 +31,7 @@ export const detectLanguage = async (text, setDetectedLanguage) => {
   }
 };
 
+//function to handle translation of text
 export const translateText = async (
   text,
   detectedLanguage,
@@ -56,17 +60,20 @@ export const translateText = async (
       error.message ===
       "Unable to create translator for the given source and target language."
     ) {
-      toast.error("Unsupported Language Provided!");
+      toast.error("Unsupported Languages Provided!");
     } else {
-      toast.error("Error in translation. Try again!");
+      toast.error("Error in translation.");
     }
   } finally {
     setIsTranslating(false);
   }
 };
 
+// function to handle summarization of text
 export const summarizeText = async (text, setIsProcessing) => {
   setIsProcessing(true);
+
+  // setting config parameters for the summarize api
   const options = {
     type: "key-points",
     format: "plain-text",

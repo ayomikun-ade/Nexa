@@ -3,6 +3,7 @@ import Header from "../components/Header";
 import { toast, ToastContainer } from "react-toastify";
 
 const TermsConditions = () => {
+  // function to handle copy to clipboard
   const handleCopy = async (event) => {
     try {
       const textToCopy = event.target.textContent;
@@ -15,6 +16,12 @@ const TermsConditions = () => {
       });
     } catch (error) {
       console.error("Error copying text:", error);
+    }
+  };
+
+  const checkKey = (e) => {
+    if (e.key === "Enter") {
+      handleCopy(e);
     }
   };
 
@@ -54,6 +61,7 @@ const TermsConditions = () => {
                 <li
                   tabIndex={0}
                   onClick={handleCopy}
+                  onKeyDown={checkKey}
                   className="hover:no-underline underline"
                 >
                   chrome://flags/#translation-api
@@ -61,6 +69,7 @@ const TermsConditions = () => {
                 <li
                   tabIndex={0}
                   onClick={handleCopy}
+                  onKeyDown={checkKey}
                   className="hover:no-underline underline"
                 >
                   chrome://flags/#language-detection-api
@@ -68,6 +77,7 @@ const TermsConditions = () => {
                 <li
                   tabIndex={0}
                   onClick={handleCopy}
+                  onKeyDown={checkKey}
                   className="hover:no-underline underline"
                 >
                   chrome://flags/#summarization-api-for-gemini-nano
@@ -80,8 +90,9 @@ const TermsConditions = () => {
             </li>
           </ul>
           <Link
+            aria-label="link to the text-processor page"
             to="/text-processor"
-            className="bg-black text-lg px-8 hover:bg-black/80 py-1 rounded-lg mt-3 text-white w-fit self-center transition duration-300 hover:ease-in-out "
+            className="bg-black text-lg px-8 hover:bg-black/80 py-1 rounded-lg mt-3 text-white w-fit focus-visible:outline-neutral-500 self-center transition duration-300 hover:ease-in-out "
           >
             Let&apos;s Roll
           </Link>

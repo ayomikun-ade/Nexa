@@ -18,6 +18,7 @@ const LandingPage = () => {
           Terms and Conditions Apply
         </span>
         <Link
+          aria-label="Link to key points page"
           to="/terms-and-conditions"
           className="bg-neutral-600 hover:bg-neutral-400 transition duration-500 hover:ease-in-out px-3 py-2 rounded-md font-primary mt-5"
         >

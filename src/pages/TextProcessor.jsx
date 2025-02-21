@@ -148,6 +148,7 @@ const TextProcessor = () => {
       <div className="px-3 md:px-10 w-full min-h-screen font-primary flex flex-col justify-center items-center">
         <Header />
         <section className="relative max-w-[700px] h-[85vh] md:h-[80vh] w-full animate-fadeIn flex flex-col justify-between shadow-md shadow-neutral-600 bg-white rounded-lg text-black mt-20 mb-6 md:mb-0 md:mt-5 px-3 md:px-6 pt-8 pb-5">
+          {/* Box Header section */}
           {chatHistory.length > 0 && (
             <div className="absolute top-2 right-3 left-3 flex justify-between items-center">
               <div className="flex gap-1 items-center">
@@ -182,6 +183,8 @@ const TextProcessor = () => {
               </button>
             </div>
           )}
+
+          {/* Output Area Section */}
           {chatHistory.length > 0 ? (
             <section className="overflow-y-auto mt-8 rounded-md overflow-x-hidden">
               {chatHistory.map((msg, index) => (
@@ -234,6 +237,7 @@ const TextProcessor = () => {
                       msg.sender === "user" &&
                       detectedLanguage == "en" && (
                         <button
+                          aria-label="Summarize text button"
                           onClick={() => handleSummarize(index)}
                           disabled={isProcessing || isTranslating}
                           className="px-2 py-1 w-full rounded-md bg-black disabled:cursor-not-allowed disabled:opacity-70 text-white border border-black hover:bg-black/80 transition duration-300 hover:ease-in-out"
@@ -255,6 +259,7 @@ const TextProcessor = () => {
                     {msg.sender === "user" && (
                       <div className="w-full flex items-center">
                         <select
+                          aria-label="Select language to translate to"
                           onChange={handleLanguageChange}
                           className="px-1 py-1 rounded-md border border-transparent focus:border-neutral-600 disabled:cursor-not-allowed disabled:opacity-70"
                         >
@@ -269,6 +274,7 @@ const TextProcessor = () => {
                           <option value="fr">French</option>
                         </select>
                         <button
+                          aria-label="Translate text button"
                           onClick={() => handleTranslate(index)}
                           disabled={isProcessing || isTranslating}
                           className="px-2 py-1 rounded-md border border-neutral-800 ml-2 disabled:cursor-not-allowed disabled:opacity-70 hover:bg-neutral-300 transition duration-300 hover:ease-in-out"
@@ -296,6 +302,7 @@ const TextProcessor = () => {
             <Welcome />
           )}
 
+          {/* Text Input Section */}
           <section className="mt-3">
             <div className="has-[:focus]:border-neutral-900 w-full border-2 shadow-md border-neutral-300 flex items-end rounded-xl p-2 gap-2">
               <textarea
