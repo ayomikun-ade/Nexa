@@ -52,14 +52,14 @@ const TermsConditions = () => {
           <h2 className="font-main text-4xl font-semibold text-center pb-2 border-b border-neutral-400">
             Key Things To Note
           </h2>
-          <ul className="text-center list-inside my-8 flex flex-col items-center">
+          <ul className="text-center list-inside my-8 flex flex-col gap-1 items-center">
             <li>
               ⚜️ This website only works on Chrome browsers due to the built-in
               Chrome AI APIs used.
             </li>
             <li>
               ⚜️ Chrome Browser version should be between Chrome 131 to Chrome
-              136
+              136.
             </li>
             <li>
               ⚜️ For better functionality, use this website on a PC or Desktop
@@ -68,7 +68,7 @@ const TermsConditions = () => {
             <li className="text-center text-black flex- flex-col">
               ⚜️ Incase of any errors referring to support for browsers. Please
               go to the following pages and enable the following:
-              <ul className="text-blue-600 text-sm mt-2">
+              <ul className="text-blue-600 flex flex-col gap-[2px] text-sm mt-2">
                 <li
                   tabIndex={0}
                   onClick={handleCopy}

@@ -120,8 +120,10 @@ const TextProcessor = () => {
 
   const clearChatHistory = () => {
     setChatHistory([]);
+    setDetectedLanguage("");
     localStorage.removeItem("chatHistory");
-    window.location.reload();
+    toast.dismiss();
+    // window.location.reload();
   };
 
   const handleKeyDown = (e) => {
@@ -183,7 +185,10 @@ const TextProcessor = () => {
 
           {/* Output Area Section */}
           {chatHistory.length > 0 ? (
-            <section className="overflow-y-auto mt-8 px-1 rounded-md overflow-x-hidden">
+            <section
+              aria-live="polite"
+              className="overflow-y-auto mt-8 px-1 rounded-md overflow-x-hidden"
+            >
               {chatHistory.map((msg, index) => (
                 <div
                   key={index}
