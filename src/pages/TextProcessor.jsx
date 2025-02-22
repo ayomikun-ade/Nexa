@@ -18,6 +18,8 @@ const TextProcessor = () => {
   const [selectedLanguage, setSelectedLanguage] = useState("");
   const [isTranslating, setIsTranslating] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [translatingIndexes, setTranslatingIndexes] = useState({});
+  const [summarizeIndexes, setSummarizeIndexes] = useState({});
 
   useEffect(() => {
     if (!("ai" in self)) {
@@ -50,12 +52,14 @@ const TextProcessor = () => {
   };
 
   const handleTranslate = async (index) => {
+    setTranslatingIndexes((prev) => ({ ...prev, [index]: true }));
+    setIsTranslating(true);
     const message = chatHistory[index];
     const translatedText = await translateText(
       message.text,
       detectedLanguage,
-      selectedLanguage,
-      setIsTranslating
+      selectedLanguage
+      // setIsTranslating
     );
     const languageName =
       new Intl.DisplayNames(["en"], { type: "language" }).of(
@@ -72,9 +76,12 @@ const TextProcessor = () => {
         },
       ]);
     }
+    setTranslatingIndexes((prev) => ({ ...prev, [index]: false }));
+    setIsTranslating(false);
   };
 
   const handleSummarize = async (index) => {
+    setSummarizeIndexes((prev) => ({ ...prev, [index]: true }));
     const message = chatHistory[index];
     const summarizedText = await summarizeText(message.text, setIsProcessing);
     if (summarizedText) {
@@ -83,6 +90,7 @@ const TextProcessor = () => {
         { text: summarizedText, sender: "bot", type: "summary" },
       ]);
     }
+    setSummarizeIndexes((prev) => ({ ...prev, [index]: false }));
   };
 
   const handleSendMessage = async () => {
@@ -241,10 +249,12 @@ const TextProcessor = () => {
                         <button
                           aria-label="Summarize text button"
                           onClick={() => handleSummarize(index)}
-                          disabled={isProcessing || isTranslating}
+                          disabled={
+                            summarizeIndexes[index] || translatingIndexes[index]
+                          }
                           className="px-2 py-1 w-full rounded-md bg-black disabled:cursor-not-allowed disabled:opacity-70 text-white border border-black hover:bg-black/80 transition duration-300 hover:ease-in-out"
                         >
-                          {isProcessing ? (
+                          {summarizeIndexes[index] ? (
                             <span className="w-fit flex items-center">
                               <img
                                 src="/loading-white.svg"
@@ -278,10 +288,10 @@ const TextProcessor = () => {
                         <button
                           aria-label="Translate text button"
                           onClick={() => handleTranslate(index)}
-                          disabled={isProcessing || isTranslating}
+                          disabled={isProcessing || translatingIndexes[index]}
                           className="px-2 py-1 rounded-md border border-neutral-800 ml-2 disabled:cursor-not-allowed disabled:opacity-70 hover:bg-neutral-300 transition duration-300 hover:ease-in-out"
                         >
-                          {isTranslating ? (
+                          {translatingIndexes[index] ? (
                             <span className="w-fit flex items-center">
                               <img
                                 src="/loading.svg"

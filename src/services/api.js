@@ -45,8 +45,8 @@ export const detectLanguage = async (text, setDetectedLanguage) => {
 export const translateText = async (
   text,
   detectedLanguage,
-  targetLanguage,
-  setIsTranslating
+  targetLanguage
+  // setIsTranslating
 ) => {
   console.log(detectedLanguage, targetLanguage);
   if (detectedLanguage === targetLanguage) {
@@ -54,7 +54,7 @@ export const translateText = async (
     return;
   }
 
-  setIsTranslating(true);
+  // setIsTranslating(true);
 
   try {
     const translator = await self.ai.translator.create({
@@ -80,9 +80,10 @@ export const translateText = async (
     } else {
       toast.error("Error in translation.");
     }
-  } finally {
-    setIsTranslating(false);
   }
+  // finally {
+  //   setIsTranslating(false);
+  // }
 };
 
 // function to handle summarization of text
