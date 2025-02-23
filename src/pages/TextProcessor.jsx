@@ -1,6 +1,6 @@
 import { toast, ToastContainer } from "react-toastify";
 import Header from "../components/Header";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Welcome from "../components/Welcome";
 import { Link } from "react-router";
 import { detectLanguage, translateText, summarizeText } from "../services/api";
@@ -20,6 +20,7 @@ const TextProcessor = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [translatingIndexes, setTranslatingIndexes] = useState({});
   const [summarizeIndexes, setSummarizeIndexes] = useState({});
+  const chatRef = useRef(null);
 
   useEffect(() => {
     if (!("ai" in self)) {
@@ -46,6 +47,12 @@ const TextProcessor = () => {
   useEffect(() => {
     localStorage.setItem("detectedLanguage", detectedLanguage);
   }, [detectedLanguage]);
+
+  useEffect(() => {
+    if (chatRef.current) {
+      chatRef.current.scrollTop = chatRef.current.scrollHeight;
+    }
+  }, [chatHistory]);
 
   const handleLanguageChange = (e) => {
     setSelectedLanguage(e.target.value);
@@ -194,8 +201,9 @@ const TextProcessor = () => {
           {/* Output Area Section */}
           {chatHistory.length > 0 ? (
             <section
+              ref={chatRef}
               aria-live="polite"
-              className="overflow-y-auto mt-8 px-1 rounded-md overflow-x-hidden"
+              className="overflow-y-auto scroll-smooth mt-8 px-1 rounded-md overflow-x-hidden"
             >
               {chatHistory.map((msg, index) => (
                 <div
@@ -289,7 +297,7 @@ const TextProcessor = () => {
                           aria-label="Translate text button"
                           onClick={() => handleTranslate(index)}
                           disabled={isProcessing || translatingIndexes[index]}
-                          className="px-2 py-1 rounded-md border border-neutral-800 ml-2 disabled:cursor-not-allowed disabled:opacity-70 hover:bg-neutral-300 transition duration-300 hover:ease-in-out"
+                          className="px-2 py-1 w-full rounded-md border border-neutral-800 ml-2 disabled:cursor-not-allowed disabled:opacity-70 hover:bg-neutral-300 transition duration-300 hover:ease-in-out"
                         >
                           {translatingIndexes[index] ? (
                             <span className="w-fit flex items-center">
