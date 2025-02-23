@@ -323,7 +323,7 @@ const TextProcessor = () => {
           )}
 
           {/* Text Input Section */}
-          <section className="space-y-2 mt-">
+          <section className="space-y-2">
             <div className="has-[:focus]:border-neutral-900 w-full border-2 shadow-md border-neutral-300 flex items-end rounded-xl p-2 gap-2">
               <textarea
                 rows={3}
