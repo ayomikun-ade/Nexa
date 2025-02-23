@@ -154,7 +154,7 @@ const TextProcessor = () => {
       />
       <div className="px-3 md:px-10 w-full min-h-screen font-primary flex flex-col justify-center items-center">
         <Header />
-        <section className="relative max-w-[700px] h-[85vh] md:h-[80vh] w-full animate-fadeIn flex flex-col justify-between shadow-md shadow-neutral-600 bg-white rounded-lg text-black mt-20 mb-6 md:mb-0 md:mt-5 px-3 md:px-6 pt-8 pb-5">
+        <section className="relative max-w-[950px] h-[85vh] md:h-[80vh] w-full animate-fadeIn flex flex-col justify-between shadow-md shadow-neutral-600 bg-white rounded-lg text-black mt-20 mb-6 md:mb-0 md:mt-5 px-3 md:px-6 pt-8 pb-5">
           {/* Box Header section */}
           {chatHistory.length > 0 && (
             <div className="absolute top-2 right-3 left-3 flex justify-between items-center">
@@ -162,12 +162,12 @@ const TextProcessor = () => {
                 <Link
                   to="/"
                   aria-label="Home button"
-                  className="hover:scale-105 transition duration-300 hover:ease-in-out"
+                  className="hover:scale-110 transition duration-300 hover:ease-in-out"
                 >
                   <ion-icon
                     className="text-2xl"
                     aria-hidden="true"
-                    name="home-outline"
+                    name="arrow-back-outline"
                   ></ion-icon>
                 </Link>
                 <h3 className="font-semibold flex items-center gap-1 font-main text-2xl tracking-normal ml-2">
@@ -221,7 +221,7 @@ const TextProcessor = () => {
                     )}
                   </div>
                   {msg.language && msg.sender === "user" && (
-                    <p className="text-neutral-500 flex text-sm md:text-base items-center mr-2 mb-1.5">
+                    <p className="text-neutral-500 flex text-xs md:text-base items-center mr-2 mb-1.5 md:mb-2">
                       <ion-icon
                         className="mr-1 text-sm md:text-lg"
                         size="medium"
@@ -232,7 +232,7 @@ const TextProcessor = () => {
                     </p>
                   )}
                   {msg.type == "translation" && msg.sender === "bot" && (
-                    <p className="text-neutral-500 flex text-sm md:text-base items-center mr-2 mb-1.5">
+                    <p className="text-neutral-500 flex text-xs md:text-sm items-center ml-2 mb-1.5">
                       <ion-icon
                         className="mr-1 text-sm md:text-lg"
                         size="medium"
@@ -315,7 +315,7 @@ const TextProcessor = () => {
           )}
 
           {/* Text Input Section */}
-          <section className="mt-3">
+          <section className="space-y-2 mt-">
             <div className="has-[:focus]:border-neutral-900 w-full border-2 shadow-md border-neutral-300 flex items-end rounded-xl p-2 gap-2">
               <textarea
                 rows={3}
