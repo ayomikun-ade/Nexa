@@ -6,7 +6,7 @@ import Documentation from "./pages/Documentation";
 const App = () => {
   return (
     <div
-      className="bg-gradient-to-t from-[#2c2c2c] to-[#000000]
+      className="bg-fixed bg-gradient-to-t from-[#2c2c2c] to-[#000000]
  text-white"
     >
       <BrowserRouter>
